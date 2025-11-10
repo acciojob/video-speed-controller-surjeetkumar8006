@@ -2,20 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Video Speed Scrubber</title>
+  <title>Video Speed Controller</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+    }
+    .player {
+      max-width: 750px;
+      border: 2px solid #444;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .viewer {
+      width: 100%;
+      max-height: 430px;
+      display: block;
+    }
+    .player__controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background: #222;
+      padding: 10px;
+    }
+    .progress {
+      flex: 1;
+      background: #444;
+      height: 8px;
+      cursor: pointer;
+      margin: 5px 0;
+    }
+    .progress__filled {
+      width: 0%;
+      background: #ffc600;
+      flex: 0;
+      height: 100%;
+    }
+    .player__button, .skip {
+      background: #444;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+    .player__slider {
+      width: 100px;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="wrapper">
-    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" controls></video>
-    <div class="speed">
-      <div class="speed-bar">1×</div>
+  <div class="player">
+    <video class="viewer" src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+
+    <div class="player__controls">
+      <button class="player__button toggle" title="Toggle Play">►</button>
+      <button class="skip" data-skip="-10">« 10s</button>
+      <button class="skip" data-skip="25">25s »</button>
+      <input type="range" name="volume" class="player__slider" min="0" max="1" step="0.05" value="1">
+      <input type="range" name="playbackRate" class="player__slider" min="0.5" max="2" step="0.1" value="1">
+      <div class="progress">
+        <div class="progress__filled"></div>
+      </div>
     </div>
   </div>
 
-<script  src="./script.js">
-  //Your code goes here
-</script>
+  <script src="./script.js"></script>
 </body>
 </html>
