@@ -1,11 +1,11 @@
-// Select elements
-const player = document.querySelector('.player');
-const video = player.querySelector('.viewer');
-const toggle = player.querySelector('.toggle');
-const skipButtons = player.querySelectorAll('[data-skip]');
-const ranges = player.querySelectorAll('.player__slider');
-const progress = player.querySelector('.progress');
-const progressBar = player.querySelector('.progress__filled');
+// Get elements
+const video = document.querySelector('.player__video');
+const toggle = document.querySelector('.toggle');
+const rewindBtn = document.querySelector('.rewind');
+const forwardBtn = document.querySelector('.forward');
+const ranges = document.querySelectorAll('.player__slider');
+const progress = document.querySelector('.progress');
+const progressBar = document.querySelector('.progress__filled');
 
 // Toggle play/pause
 function togglePlay() {
@@ -16,18 +16,13 @@ function togglePlay() {
   }
 }
 
-// Update button icon
+// Update play/pause button
 function updateButton() {
   const icon = video.paused ? '►' : '❚ ❚';
   toggle.textContent = icon;
 }
 
-// Skip forward/backward
-function skip() {
-  video.currentTime += parseFloat(this.dataset.skip);
-}
-
-// Handle volume & playback rate changes
+// Handle range updates (volume, playbackRate)
 function handleRangeUpdate() {
   video[this.name] = this.value;
 }
@@ -38,10 +33,20 @@ function handleProgress() {
   progressBar.style.width = `${percent}%`;
 }
 
-// Scrub through video
+// Scrub (seek) video
 function scrub(e) {
   const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
   video.currentTime = scrubTime;
+}
+
+// Rewind 10 seconds
+function rewind() {
+  video.currentTime = Math.max(0, video.currentTime - 10);
+}
+
+// Forward 25 seconds
+function forward() {
+  video.currentTime = Math.min(video.duration, video.currentTime + 25);
 }
 
 // Event listeners
@@ -51,7 +56,9 @@ video.addEventListener('pause', updateButton);
 video.addEventListener('timeupdate', handleProgress);
 
 toggle.addEventListener('click', togglePlay);
-skipButtons.forEach(button => button.addEventListener('click', skip));
+rewindBtn.addEventListener('click', rewind);
+forwardBtn.addEventListener('click', forward);
+
 ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
 ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
 
